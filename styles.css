@@ -1,0 +1,408 @@
+/* ───── tokens ─────────────────────────────────────────────────────── */
+:root {
+  --cream:   #f4f0e6;
+  --cream-2: #ebe6d8;
+  --ink:     #0a0a0a;
+  --ink-2:   #1a1a1a;
+  --muted:   #6b6b66;
+  --line:    #0a0a0a;
+  --rule:    rgba(10,10,10,0.12);
+
+  --font-sans: 'Inter', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  --max:     1600px;
+  --pad:     clamp(20px, 4vw, 56px);
+  --radius:  14px;
+
+  --t-fast:  180ms cubic-bezier(.2,.7,.2,1);
+  --t-mid:   240ms cubic-bezier(.4,0,.2,1);
+  --t-slow:  600ms cubic-bezier(.2,.7,.2,1);
+}
+
+/* ───── reset ──────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--font-sans);
+  background: var(--cream);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; }
+
+/* subtle grain across the whole page — keeps the cream from feeling flat */
+body::before {
+  content: "";
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: .035;
+  mix-blend-mode: multiply;
+  background-image:
+    radial-gradient(rgba(0,0,0,1) 1px, transparent 1px);
+  background-size: 3px 3px;
+}
+
+/* ───── topbar ─────────────────────────────────────────────────────── */
+.topbar {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 22px var(--pad);
+  max-width: var(--max);
+  margin: 0 auto;
+}
+.mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  font-size: 16px;
+  cursor: pointer;
+}
+.mark-icon {
+  width: 14px; height: 18px;
+  display: block;
+  flex: 0 0 auto;
+  color: var(--ink);
+  transition: transform var(--t-fast);
+}
+.mark:hover .mark-icon { transform: translateY(-1px) rotate(-4deg); }
+.nav {
+  display: flex; gap: 24px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  text-transform: lowercase;
+  letter-spacing: 0.04em;
+}
+.nav a {
+  position: relative;
+  padding: 4px 0;
+  color: var(--ink-2);
+  transition: color var(--t-fast);
+}
+.nav a::after {
+  content: "";
+  position: absolute; left: 0; right: 100%; bottom: 0;
+  height: 1.5px;
+  background: var(--ink);
+  transition: right var(--t-fast);
+}
+.nav a:hover { color: var(--ink); }
+.nav a:hover::after,
+.nav a[data-active]::after { right: 0; }
+.nav a[data-active] { color: var(--ink); }
+
+/* ───── hero ───────────────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  z-index: 2;
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 var(--pad) 24px;
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(420px, 1.7fr);
+  gap: clamp(20px, 3vw, 48px);
+  /* Anchor both columns to the top so the shorter text column doesn't
+     create empty cream above it on desktop. */
+  align-items: start;
+  /* No min-height here — the hero is exactly as tall as its content,
+     so the footer hugs the rig with no empty cream between them. */
+}
+
+/* The copy area stacks all views in the same grid cell so they overlap.
+   Only the [data-active] view is visible — switching views fades one
+   out and the other in WITHOUT changing the container size. */
+.hero-copy {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-areas: 'stack';
+}
+.view {
+  grid-area: stack;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition:
+    opacity   var(--t-mid),
+    transform var(--t-mid),
+    visibility 0s linear var(--t-mid);
+  pointer-events: none;
+}
+.view[data-active] {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+  /* delay the show so the outgoing view fades out first */
+  transition:
+    opacity   var(--t-mid) 80ms,
+    transform var(--t-mid) 80ms,
+    visibility 0s linear 80ms;
+}
+
+.hero-title {
+  font-weight: 900;
+  letter-spacing: -0.045em;
+  line-height: 0.86;
+  font-size: clamp(56px, 11vw, 168px);
+  margin: 0 0 18px;
+  display: flex;
+  flex-direction: column;
+}
+.hero-title span { display: block; }
+
+.hero-subtitle {
+  font-family: var(--font-mono);
+  font-size: clamp(11px, 1.1vw, 13px);
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 0 0 28px;
+}
+
+.hero-blurb {
+  max-width: 38ch;
+  font-size: clamp(15px, 1.2vw, 17px);
+  line-height: 1.55;
+  color: var(--ink-2);
+  margin: 0 0 28px;
+}
+
+/* ───── numbered list (work + studio) ──────────────────────────────── */
+.numbered-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: 44ch;
+}
+.numbered-list li {
+  border-top: 1px solid var(--rule);
+}
+.numbered-list li:last-child {
+  border-bottom: 1px solid var(--rule);
+}
+
+/* row layout — used both for plain rows (studio) and clickable rows (work) */
+.numbered-list li > .row-link,
+.numbered-list li > .num {
+  /* the LI itself just provides the rules; content inside is the grid */
+}
+.numbered-list li {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: 16px;
+  padding: 14px 0;
+  align-items: baseline;
+}
+/* When the row is a link, the anchor IS the grid (replaces the li grid) */
+.numbered-list li:has(.row-link) {
+  display: block;
+  padding: 0;
+}
+.numbered-list .row-link {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: 16px;
+  padding: 14px 0;
+  align-items: baseline;
+  color: inherit;
+  transition: background var(--t-fast);
+}
+.numbered-list .row-link:hover {
+  background: rgba(10,10,10,0.04);
+}
+.numbered-list .row-link:hover .row-title { text-decoration: underline; text-underline-offset: 4px; }
+.numbered-list .row-link:hover .row-arrow { transform: translate(2px, -2px); }
+
+.numbered-list .num {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+.numbered-list .row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.numbered-list .row-title {
+  font-size: clamp(15px, 1.25vw, 18px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.numbered-list .row-arrow {
+  font-family: var(--font-mono);
+  font-size: 0.78em;
+  font-weight: 400;
+  color: var(--muted);
+  transition: transform var(--t-fast);
+}
+.numbered-list .row-desc {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  text-transform: lowercase;
+}
+
+/* ───── contact links ──────────────────────────────────────────────── */
+.contact-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.contact-link {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: clamp(16px, 1.5vw, 20px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 4px;
+  align-self: flex-start;
+  transition: gap var(--t-fast), transform var(--t-fast);
+}
+.contact-link span {
+  font-size: 0.78em;
+  display: inline-block;
+  transition: transform var(--t-fast);
+}
+.contact-link:hover { gap: 14px; }
+.contact-link:hover span { transform: translate(3px, -3px); }
+
+/* ───── stage (the 3D canvas) ──────────────────────────────────────── */
+.hero-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  /* Cap by 78vh so the stage + topbar + hero padding always fits in the
+     viewport — this is the lever that prevents the hero from forcing a
+     scroll on desktop. */
+  max-width: min(1180px, 78vh);
+  border-radius: var(--radius);
+  overflow: hidden;
+  isolation: isolate;
+}
+.stage::before {
+  /* faint stage glow so the computer doesn't float on a totally flat field */
+  content: "";
+  position: absolute; inset: 8% 6% 6% 6%;
+  background: radial-gradient(60% 50% at 50% 60%, rgba(0,0,0,.08), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+#scene {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  display: block;
+  z-index: 1;
+  cursor: grab;
+}
+#scene:active { cursor: grabbing; }
+
+.stage-loader {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 14px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: var(--cream);
+  z-index: 4;
+  transition: opacity var(--t-slow);
+}
+.stage-loader.hidden { opacity: 0; pointer-events: none; }
+.stage-loader-bar {
+  width: 180px; height: 8px;
+  border: 1.5px solid var(--ink);
+  background: var(--cream);
+  position: relative;
+  overflow: hidden;
+}
+.stage-loader-bar > div {
+  position: absolute; inset: 0;
+  width: 0%;
+  background: var(--ink);
+  animation: loader 1.6s cubic-bezier(.4,.1,.4,1) infinite;
+}
+@keyframes loader {
+  0%   { width: 0%;   left: 0; }
+  60%  { width: 100%; left: 0; }
+  100% { width: 0%;   left: 100%; }
+}
+
+/* ───── footer ─────────────────────────────────────────────────────── */
+.footer {
+  position: relative;
+  z-index: 2;
+  display: flex; gap: 12px; align-items: center; justify-content: center;
+  padding: 22px var(--pad) 36px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.footer-dot { color: var(--ink); }
+
+/* ───── responsive ─────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding-bottom: 24px;
+  }
+  .hero-stage { order: 2; }
+  .hero-copy  { order: 1; }
+  .hero-title { font-size: clamp(56px, 18vw, 120px); }
+  /* On tablet the stage spans the full single column. Cap it by viewport
+     so the rig + text + footer still fit without scroll, and use 4:3 so
+     it doesn't dominate the page like a 1:1 square would. */
+  .stage      { aspect-ratio: 4 / 3; max-width: min(680px, 60vh); margin: 0 auto; }
+  .nav        { gap: 16px; font-size: 12px; }
+}
+
+@media (max-width: 520px) {
+  .topbar { padding: 18px 20px; }
+  .hero   { padding-left: 20px; padding-right: 20px; gap: 12px; }
+  .hero-title { font-size: clamp(48px, 22vw, 96px); }
+  /* shorter, wider canvas so the rig fills it edge-to-edge with no empty
+     cream gap above OR below — measured against where the rig's bottom
+     and top actually land in NDC at the mobile camera angle */
+  .stage   { aspect-ratio: 4 / 3; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage-loader-bar > div { animation: none; }
+  .view { transition-duration: 0s; }
+}

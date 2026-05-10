@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f4f0e6" />
+  <title>my digital crib — creative digital studio</title>
+  <meta name="description" content="my digital crib — a small studio for brands that need a better digital home. Brand systems, websites, and social previews — built with feel." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="mark" href="#" data-route="home" aria-label="my digital crib — go home">
+      <svg class="mark-icon" viewBox="0 0 14 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="1" y="1" width="12" height="16" rx="6" />
+        <line x1="3.4" y1="6" x2="10.6" y2="6" />
+      </svg>
+      <span class="mark-text">my digital crib</span>
+    </a>
+    <nav class="nav" aria-label="primary">
+      <a href="#work" data-route="work">work</a>
+      <a href="#studio" data-route="studio">studio</a>
+      <a href="#contact" data-route="contact">contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+
+        <!-- ── HOME ───────────────────────────────────────────── -->
+        <article class="view" data-view="home" data-active>
+          <h1 id="hero-title" class="hero-title">
+            <span>my</span>
+            <span>digital</span>
+            <span>crib</span>
+          </h1>
+          <p class="hero-subtitle">creative digital studio</p>
+          <p class="hero-blurb">
+            A small studio for brands that need a better digital home.
+            Brand systems, websites, and social previews — built with feel.
+          </p>
+        </article>
+
+        <!-- ── WORK ───────────────────────────────────────────── -->
+        <article class="view" data-view="work" aria-hidden="true">
+          <h1 class="hero-title">
+            <span>selected</span>
+            <span>work</span>
+          </h1>
+          <p class="hero-subtitle">brand · web · social</p>
+          <ol class="numbered-list">
+            <li>
+              <a class="row-link" href="https://argeniszabala.com" target="_blank" rel="noopener">
+                <span class="num">01</span>
+                <span class="row">
+                  <span class="row-title">Argenis Zabala<span class="row-arrow" aria-hidden="true">↗</span></span>
+                  <span class="row-desc">real estate</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a class="row-link" href="https://solara-pool.netlify.app" target="_blank" rel="noopener">
+                <span class="num">02</span>
+                <span class="row">
+                  <span class="row-title">Solara Pool<span class="row-arrow" aria-hidden="true">↗</span></span>
+                  <span class="row-desc">pool service</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a class="row-link" href="https://www.lucasgfreeman.com" target="_blank" rel="noopener">
+                <span class="num">03</span>
+                <span class="row">
+                  <span class="row-title">Lucas G. Freeman<span class="row-arrow" aria-hidden="true">↗</span></span>
+                  <span class="row-desc">fantasy author</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a class="row-link" href="https://www.laurhamrick.com" target="_blank" rel="noopener">
+                <span class="num">04</span>
+                <span class="row">
+                  <span class="row-title">Lauren Hamrick<span class="row-arrow" aria-hidden="true">↗</span></span>
+                  <span class="row-desc">writer, speaker, advocate</span>
+                </span>
+              </a>
+            </li>
+          </ol>
+        </article>
+
+        <!-- ── STUDIO ─────────────────────────────────────────── -->
+        <article class="view" data-view="studio" aria-hidden="true">
+          <h1 class="hero-title">
+            <span>the</span>
+            <span>studio</span>
+          </h1>
+          <p class="hero-subtitle">how we work</p>
+          <p class="hero-blurb">
+            A small studio for brands that want their online presence to feel
+            as good as their real-world work.
+          </p>
+          <ol class="numbered-list">
+            <li>
+              <span class="num">01</span>
+              <span class="row">
+                <span class="row-title">brand direction</span>
+                <span class="row-desc">identity, visuals, decks</span>
+              </span>
+            </li>
+            <li>
+              <span class="num">02</span>
+              <span class="row">
+                <span class="row-title">websites &amp; digital homes</span>
+                <span class="row-desc">webflow · squarespace · custom code</span>
+              </span>
+            </li>
+            <li>
+              <span class="num">03</span>
+              <span class="row">
+                <span class="row-title">engineering</span>
+                <span class="row-desc">frontend, backend, SEO</span>
+              </span>
+            </li>
+          </ol>
+        </article>
+
+        <!-- ── CONTACT ────────────────────────────────────────── -->
+        <article class="view" data-view="contact" aria-hidden="true">
+          <h1 class="hero-title">
+            <span>say</span>
+            <span>hello</span>
+          </h1>
+          <p class="hero-subtitle">let's talk</p>
+          <p class="hero-blurb">
+            Tell me about your brand. The simpler the message, the faster
+            I'll write back.
+          </p>
+          <ul class="contact-links">
+            <li><a class="contact-link" href="mailto:hello@mydigitalcrib.com">hello@mydigitalcrib.com<span aria-hidden="true">↗</span></a></li>
+            <li><a class="contact-link" href="https://instagram.com/mydigitalcrib" target="_blank" rel="noopener">@mydigitalcrib on instagram<span aria-hidden="true">↗</span></a></li>
+          </ul>
+        </article>
+
+      </div>
+
+      <div class="hero-stage">
+        <div id="stage" class="stage" role="img" aria-label="A 3D rendering of a vintage Macintosh-style computer with a working screen, keyboard, and mouse">
+          <canvas id="scene"></canvas>
+          <div class="stage-loader" id="stage-loader" aria-hidden="true">
+            <div class="stage-loader-bar"><div></div></div>
+            <span>booting…</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>© my digital crib</span>
+    <span class="footer-dot" aria-hidden="true">•</span>
+    <span>made with care</span>
+  </footer>
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
