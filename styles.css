@@ -342,6 +342,41 @@ body::before {
   transition: opacity var(--t-slow);
 }
 .stage-loader.hidden { opacity: 0; pointer-events: none; }
+.stage-loader--error {
+  align-items: stretch;
+  justify-content: center;
+  padding: clamp(18px, 4vw, 40px);
+  letter-spacing: 0;
+  text-transform: none;
+  text-align: left;
+}
+.stage-loader-error-panel {
+  width: min(100%, 560px);
+  margin: 0 auto;
+  font-family: var(--font-sans);
+  color: var(--ink);
+}
+.stage-loader-error-panel strong {
+  display: block;
+  margin-bottom: 12px;
+  font-size: clamp(18px, 3vw, 28px);
+  letter-spacing: -0.02em;
+}
+.stage-loader-error-panel pre {
+  max-height: 220px;
+  overflow: auto;
+  margin: 0 0 12px;
+  padding: 12px;
+  border: 1px solid var(--ink);
+  white-space: pre-wrap;
+  font: 12px/1.45 var(--font-mono);
+  background: rgba(255,255,255,0.36);
+}
+.stage-loader-error-panel small {
+  display: block;
+  font: 11px/1.45 var(--font-mono);
+  color: var(--muted);
+}
 .stage-loader-bar {
   width: 180px; height: 8px;
   border: 1.5px solid var(--ink);

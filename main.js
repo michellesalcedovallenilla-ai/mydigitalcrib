@@ -1,5 +1,3 @@
-﻿try {
-  // main.js wrapped for error recovery
 // main.js â€” Three.js scene for the my digital crib hero.
 // A stylized line-art Macintosh-style computer with a working canvas-textured
 // screen, a keyboard that responds to physical key presses, and a mouse that
@@ -15,14 +13,39 @@ import { LineSegmentsGeometry } from 'three/addons/lines/LineSegmentsGeometry.js
 import { LineMaterial }        from 'three/addons/lines/LineMaterial.js';
 import { createScreenCanvas, drawScreen, setScreenLabel } from './screen.js';
 
+if (window.StageBoot) window.StageBoot.mark('main module loaded');
+
 const WHITE = 0xfafaf6;
 const INK   = 0x0a0a0a;
 
 // â”€â”€ canvas / renderer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const canvas = document.querySelector('#scene');
+if (!canvas) {
+  throw new Error('Missing #scene canvas element.');
+}
+
+function assertWebGLAvailable() {
+  const probe = document.createElement('canvas');
+  const gl = probe.getContext('webgl2') ||
+    probe.getContext('webgl') ||
+    probe.getContext('experimental-webgl');
+
+  if (!gl) {
+    throw new Error('WebGL is not available in this browser/device. Enable hardware acceleration or try another browser.');
+  }
+
+  const loseContext = gl.getExtension('WEBGL_lose_context');
+  if (loseContext) loseContext.loseContext();
+}
+
+if (window.StageBoot) window.StageBoot.mark('checking WebGL');
+assertWebGLAvailable();
+
+if (window.StageBoot) window.StageBoot.mark('starting renderer');
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.setClearColor(0x000000, 0);
+if (window.StageBoot) window.StageBoot.mark('renderer ready');
 
 const scene  = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100);
@@ -460,6 +483,7 @@ function tick() {
 
   controls.update();
   renderer.render(scene, camera);
+  if (window.StageBoot) window.StageBoot.ready();
   requestAnimationFrame(tick);
 }
 
@@ -531,16 +555,5 @@ window.addEventListener('hashchange', () => applyRoute(readRoute()));
 applyRoute(readRoute());
 
 // â”€â”€ boot â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-const loader = document.querySelector('#stage-loader');
-requestAnimationFrame(() => {
-  tick();
-  setTimeout(() => loader?.classList.add('hidden'), 80);
-});
-
-} catch (err) {
-  console.error('Bootstrap error:', err);
-  const loader = document.querySelector('#stage-loader');
-  if (loader) {
-    loader.innerHTML = '<div style="padding:20px;font-family:system-ui,sans-serif;"><strong>Error loading 3D scene</strong><br><pre style="white-space:pre-wrap;font-size:12px;margin-top:10px;">' + err.message + '</pre><br><small>Please try refreshing or use a different browser (Chrome/Firefox/Safari 16+).</small></div>';
-  }
-}
+if (window.StageBoot) window.StageBoot.mark('scene built');
+requestAnimationFrame(tick);
