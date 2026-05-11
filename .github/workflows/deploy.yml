@@ -13,13 +13,12 @@ jobs:
       deployments: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Publish to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
+        uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: dcbbd3855f2985345e34a1d59ae820bc
-          projectName: mydigitalcrib
-          directory: .
+          command: pages deploy . --project-name=mydigitalcrib --branch=main
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
