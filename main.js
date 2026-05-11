@@ -238,7 +238,7 @@ const KEY_ROWS = [
   [['tab','Tab',1.25], ['Q','KeyQ',0.9], ['W','KeyW',0.9], ['E','KeyE',0.9], ['R','KeyR',0.9], ['T','KeyT',0.9], ['Y','KeyY',0.9]],
   [['caps','CapsLock',1.45], ['A','KeyA',0.9], ['S','KeyS',0.9], ['D','KeyD',0.9], ['F','KeyF',0.9], ['G','KeyG',0.9], ['H','KeyH',0.9]],
   [['shift','Shift',1.6], ['Z','KeyZ',0.9], ['X','KeyX',0.9], ['C','KeyC',0.9], ['V','KeyV',0.9], ['B','KeyB',0.9], ['N','KeyN',0.9]],
-  [['ctrl','Control',1.05], ['alt','Alt',0.95], ['âŒ˜','Meta',0.95], ['', 'Space', 2.6]],
+  [['ctrl','Control',1.05], ['alt','Alt',0.95], ['cmd','Meta',0.95], ['', 'Space', 2.6]],
 ];
 
 const keys = []; // { mesh, code, restY, pressedAt }
@@ -518,10 +518,10 @@ function applyRoute(name) {
 
   // update document title for nice tab labels
   const titles = {
-    home:    'my digital crib â€” creative digital studio',
-    work:    'work â€” my digital crib',
-    studio:  'studio â€” my digital crib',
-    contact: 'contact â€” my digital crib',
+    home:    'my digital crib \u2014 creative digital studio',
+    work:    'work \u2014 my digital crib',
+    studio:  'studio \u2014 my digital crib',
+    contact: 'contact \u2014 my digital crib',
   };
   document.title = titles[name];
 }
