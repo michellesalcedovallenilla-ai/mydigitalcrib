@@ -1,4 +1,6 @@
-// main.js — Three.js scene for the my digital crib hero.
+﻿try {
+  // main.js wrapped for error recovery
+// main.js â€” Three.js scene for the my digital crib hero.
 // A stylized line-art Macintosh-style computer with a working canvas-textured
 // screen, a keyboard that responds to physical key presses, and a mouse that
 // follows the user's cursor. Composition matches the brand reference: viewer
@@ -16,7 +18,7 @@ import { createScreenCanvas, drawScreen, setScreenLabel } from './screen.js';
 const WHITE = 0xfafaf6;
 const INK   = 0x0a0a0a;
 
-// ── canvas / renderer ─────────────────────────────────────────────────
+// â”€â”€ canvas / renderer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const canvas = document.querySelector('#scene');
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -28,7 +30,7 @@ camera.position.set(-4.8, 3.8, 6.0);
 const target = new THREE.Vector3(0, 1.25, 0.4);
 camera.lookAt(target);
 
-// Rotation is allowed but tightly clamped (~7° in each direction from the
+// Rotation is allowed but tightly clamped (~7Â° in each direction from the
 // reference angle) so the composition always reads correctly and nothing
 // ever slides off the canvas. Pan and zoom stay disabled.
 const controls = new OrbitControls(camera, canvas);
@@ -46,7 +48,7 @@ controls.maxAzimuthAngle = REF_AZ + THREE.MathUtils.degToRad(7);
 controls.minPolarAngle   = REF_POL - THREE.MathUtils.degToRad(5);
 controls.maxPolarAngle   = REF_POL + THREE.MathUtils.degToRad(5);
 
-// ── shared materials ──────────────────────────────────────────────────
+// â”€â”€ shared materials â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const matWhite = new THREE.MeshBasicMaterial({ color: WHITE });
 const matInk   = new THREE.MeshBasicMaterial({ color: INK });
 
@@ -108,14 +110,14 @@ function outline(mesh, mat = lineMat, threshold = 1) {
   return ls;
 }
 
-// ── master rig group ──────────────────────────────────────────────────
+// â”€â”€ master rig group â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Everything visible (computer, keyboard, mouse, cable, shadow) goes inside
 // this group so resize() can scale + offset the whole composition to keep
 // it fully in frame on any viewport.
 const rig = new THREE.Group();
 scene.add(rig);
 
-// ── COMPUTER BODY ─────────────────────────────────────────────────────
+// â”€â”€ COMPUTER BODY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Box order in Three.js: [+x, -x, +y, -y, +z, -z]
 // Camera sits at -X looking at the body, so the LEFT side panel (the textured
 // one in the reference) is the body's -X face.
@@ -134,10 +136,10 @@ body.position.y = BH / 2;
 computer.add(body);
 outline(body);
 
-// ── front face details ────────────────────────────────────────────────
+// â”€â”€ front face details â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const frontZ = BD / 2 + 0.001;
 
-// Screen — big rounded-corner black rect + "my digital crib" white text
+// Screen â€” big rounded-corner black rect + "my digital crib" white text
 // (drawn into the canvas texture). The plane is sized to cover most of the
 // front face. Transparency in the canvas reveals the white body at the
 // corners, giving the screen its rounded silhouette.
@@ -155,7 +157,7 @@ const screenPlane = new THREE.Mesh(new THREE.PlaneGeometry(SW, SH), screenMat);
 screenPlane.position.set(0, BH / 2 + 0.30, frontZ + 0.001);
 computer.add(screenPlane);
 
-// floppy disk slot — small rounded rectangle with a notch
+// floppy disk slot â€” small rounded rectangle with a notch
 {
   const slotGroup = new THREE.Group();
   slotGroup.position.set(0.60, 0.42, frontZ + 0.002);
@@ -175,7 +177,7 @@ computer.add(screenPlane);
   slotGroup.add(notch);
 }
 
-// ── side vents on the LEFT face (-X), lower-front portion ─────────────
+// â”€â”€ side vents on the LEFT face (-X), lower-front portion â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Positioned lower-front so they sit just above the keyboard and the
 // camera can see them clearly past the body's leading edge.
 {
@@ -193,7 +195,7 @@ computer.add(screenPlane);
   computer.add(lines);
 }
 
-// ── KEYBOARD ──────────────────────────────────────────────────────────
+// â”€â”€ KEYBOARD â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const keyboard = new THREE.Group();
 // Sit right against the body's front face, slightly forward and lower.
 keyboard.position.set(0.0, 0.05, BD / 2 + 0.78);
@@ -206,14 +208,14 @@ kbBase.position.y = KB_H / 2;
 keyboard.add(kbBase);
 outline(kbBase);
 
-// keys layout — [label, code, widthUnits]
+// keys layout â€” [label, code, widthUnits]
 const KEY_ROWS = [
   [['esc','Escape',1.4], ['F1','F1',0.9], ['F2','F2',0.9], ['F3','F3',0.9], ['F4','F4',0.9]],
   [['~','Backquote',0.9], ['1','Digit1',0.9], ['2','Digit2',0.9], ['3','Digit3',0.9], ['4','Digit4',0.9], ['5','Digit5',0.9], ['6','Digit6',0.9]],
   [['tab','Tab',1.25], ['Q','KeyQ',0.9], ['W','KeyW',0.9], ['E','KeyE',0.9], ['R','KeyR',0.9], ['T','KeyT',0.9], ['Y','KeyY',0.9]],
   [['caps','CapsLock',1.45], ['A','KeyA',0.9], ['S','KeyS',0.9], ['D','KeyD',0.9], ['F','KeyF',0.9], ['G','KeyG',0.9], ['H','KeyH',0.9]],
   [['shift','Shift',1.6], ['Z','KeyZ',0.9], ['X','KeyX',0.9], ['C','KeyC',0.9], ['V','KeyV',0.9], ['B','KeyB',0.9], ['N','KeyN',0.9]],
-  [['ctrl','Control',1.05], ['alt','Alt',0.95], ['⌘','Meta',0.95], ['', 'Space', 2.6]],
+  [['ctrl','Control',1.05], ['alt','Alt',0.95], ['âŒ˜','Meta',0.95], ['', 'Space', 2.6]],
 ];
 
 const keys = []; // { mesh, code, restY, pressedAt }
@@ -278,7 +280,7 @@ function makeKeyLabel(text, isWord) {
   return tex;
 }
 
-// ── MOUSE ─────────────────────────────────────────────────────────────
+// â”€â”€ MOUSE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // To the right of the keyboard, slightly forward.
 const mouseGroup = new THREE.Group();
 const MOUSE_REST = new THREE.Vector3(KB_W / 2 + 0.55, 0.05, keyboard.position.z + 0.20);
@@ -290,13 +292,13 @@ mouseBody.position.y = 0.15;
 mouseGroup.add(mouseBody);
 outline(mouseBody);
 
-// click groove on top — a thin ink strip running across the front
+// click groove on top â€” a thin ink strip running across the front
 const groove = new THREE.Mesh(new THREE.PlaneGeometry(0.45, 0.02), matInk);
 groove.rotation.x = -Math.PI / 2;
 groove.position.set(0, 0.301, -0.10);
 mouseGroup.add(groove);
 
-// ── CABLE: mouse → upper-back-right of body (rebuilt each frame) ─────
+// â”€â”€ CABLE: mouse â†’ upper-back-right of body (rebuilt each frame) â”€â”€â”€â”€â”€
 const cableEnd = new THREE.Vector3(BW / 2 - 0.18, BH * 0.78, -BD / 2 + 0.04);
 let cableMesh = new THREE.Mesh(new THREE.BufferGeometry(), matInk);
 rig.add(cableMesh);
@@ -323,8 +325,8 @@ function updateMouseCable() {
 }
 updateMouseCable();
 
-// ── ground shadow disc (subtle) ───────────────────────────────────────
-// Sized + faded so it never reaches the canvas viewport edge — otherwise
+// â”€â”€ ground shadow disc (subtle) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// Sized + faded so it never reaches the canvas viewport edge â€” otherwise
 // the rounded-rect stage clip slices the gradient and shows a hard line.
 {
   const c = document.createElement('canvas');
@@ -346,11 +348,11 @@ updateMouseCable();
   rig.add(shadow);
 }
 
-// ── default rig offset (resize() may tweak position.x per viewport) ──
+// â”€â”€ default rig offset (resize() may tweak position.x per viewport) â”€â”€
 // The composition is asymmetric (mouse + keyboard reach far +X, body has no
 // counterweight on -X). Without this offset everything drifts right and gets
 // clipped on portrait viewports. Scale + position.x are then applied per-
-// viewport in resize() — the design itself stays unchanged.
+// viewport in resize() â€” the design itself stays unchanged.
 rig.position.set(-0.55, 0, -0.70);
 // Target sits a bit below the body's vertical center so the camera tilts
 // down slightly and the keyboard stays comfortably inside the bottom of
@@ -359,7 +361,7 @@ target.set(0, 1.00, 0);
 camera.lookAt(target);
 controls.target.copy(target);
 
-// ── interactions: keyboard ────────────────────────────────────────────
+// â”€â”€ interactions: keyboard â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function normalizeCode(c) { return c.replace(/(Left|Right)$/, ''); }
 window.addEventListener('keydown', (e) => {
   const wanted = normalizeCode(e.code);
@@ -370,7 +372,7 @@ window.addEventListener('keydown', (e) => {
   }
 }, { passive: true });
 
-// ── interactions: 3D mouse follows the user's pointer ────────────────
+// â”€â”€ interactions: 3D mouse follows the user's pointer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
 function onPointer(e) {
   const r = canvas.getBoundingClientRect();
@@ -379,10 +381,10 @@ function onPointer(e) {
 }
 window.addEventListener('pointermove', onPointer, { passive: true });
 
-// ── resize ────────────────────────────────────────────────────────────
+// â”€â”€ resize â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Two responsive levers, applied together so the whole rig always fits:
-//   1. camera FOV — widens slightly on tall/portrait stages
-//   2. rig.scale  — shrinks the entire composition for narrower viewports
+//   1. camera FOV â€” widens slightly on tall/portrait stages
+//   2. rig.scale  â€” shrinks the entire composition for narrower viewports
 // The scale is the load-bearing fix; FOV widening is a small assist.
 function resize() {
   const w = canvas.clientWidth  || 1;
@@ -427,7 +429,7 @@ function resize() {
 new ResizeObserver(resize).observe(canvas);
 resize();
 
-// ── animation loop ────────────────────────────────────────────────────
+// â”€â”€ animation loop â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const clock = new THREE.Clock();
 const screenCtx = screenCanvas.getContext('2d');
 
@@ -461,7 +463,7 @@ function tick() {
   requestAnimationFrame(tick);
 }
 
-// ── routing ───────────────────────────────────────────────────────────
+// â”€â”€ routing â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Hash-based routing. The DOM stays mounted; clicking a nav link swaps
 // the active <article data-view> and updates the CRT screen label. The
 // 3D rig and the topbar stay anchored, so nothing reflows.
@@ -492,10 +494,10 @@ function applyRoute(name) {
 
   // update document title for nice tab labels
   const titles = {
-    home:    'my digital crib — creative digital studio',
-    work:    'work — my digital crib',
-    studio:  'studio — my digital crib',
-    contact: 'contact — my digital crib',
+    home:    'my digital crib â€” creative digital studio',
+    work:    'work â€” my digital crib',
+    studio:  'studio â€” my digital crib',
+    contact: 'contact â€” my digital crib',
   };
   document.title = titles[name];
 }
@@ -528,9 +530,17 @@ window.addEventListener('hashchange', () => applyRoute(readRoute()));
 // initial state from URL
 applyRoute(readRoute());
 
-// ── boot ──────────────────────────────────────────────────────────────
+// â”€â”€ boot â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const loader = document.querySelector('#stage-loader');
 requestAnimationFrame(() => {
   tick();
   setTimeout(() => loader?.classList.add('hidden'), 80);
 });
+
+} catch (err) {
+  console.error('Bootstrap error:', err);
+  const loader = document.querySelector('#stage-loader');
+  if (loader) {
+    loader.innerHTML = '<div style="padding:20px;font-family:system-ui,sans-serif;"><strong>Error loading 3D scene</strong><br><pre style="white-space:pre-wrap;font-size:12px;margin-top:10px;">' + err.message + '</pre><br><small>Please try refreshing or use a different browser (Chrome/Firefox/Safari 16+).</small></div>';
+  }
+}
